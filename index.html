@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fantasy Week One</title>
+  </head>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      background-color: #191c28;
+    }
+
+    .header {
+      font-size: 25px;
+      color: white;
+      font-weight: 800;
+      line-height: 32px;
+      font-family: "Poppins", sans-serif;
+      text-align: center
+      
+    }
+  </style>
+  <body>
+    <div>
+      <h1 class="header">Settlers of Cantan 2021</h1>
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        axios
+          .get("https://api.sleeper.app/v1/league/700483664684875776/rosters")
+          //   .get(" https://api.sleeper.app/v1/league/700483664684875776/matchups/1")
+          //   .get("https://api.sleeper.app/v1/players/nfl")
+          .then((res) => {
+            console.log(res.data);
+
+            let player_data = res.data;
+
+            let swiki = new Image(20, 20);
+            swiki.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632101501/128159503_10223393765536471_5826577596601456009_n-modified_jheslx.png";
+
+            let rob = new Image(20, 20);
+            rob.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632101742/ff67c159bfc60f6fde84426887935b16-modified_giwq97.png";
+
+            let chilos = new Image(20, 20);
+            chilos.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632101022/177270208_754238385268733_455158028242233123_n-modified_re700f.png";
+
+            let bones = new Image(20, 20);
+            bones.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632101836/d8d371e2411a4455771182f10902b78f-modified_g0esbc.png";
+
+            let greg = new Image(20, 20);
+            greg.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632101978/df71e9ee8517bee2d48bbf38c456dd3a-modified_v3zyuz.png";
+
+            let marcus = new Image(20, 20);
+            marcus.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632101978/df71e9ee8517bee2d48bbf38c456dd3a-modified_v3zyuz.png";
+
+            let gav = new Image(20, 20);
+            gav.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632103160/20b438144e99fc7597ef8763aa2a7e07-modified_xasqvk.png";
+
+            let banks = new Image(20, 20);
+            banks.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632103279/f8295e9ec409d0e7cc754cabe516aadc-modified_guxose.png";
+
+            let drape = new Image(20, 20);
+            drape.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632103207/ddee6a014d22ab4838bba14cfb41bf74-modified_xsuvjl.png";
+
+            let chandler = new Image(20, 20);
+            chandler.src =
+              "https://res.cloudinary.com/dental-intelligence/image/upload/v1632103602/182698136_4297564253589514_8291541223539815188_n-modified_dum2si.png";
+
+            let players = [
+              {
+                name: "Swiki",
+                roster_id: 1,
+                fpts: null,
+                fpts_against: null,
+                image: swiki,
+              },
+              {
+                name: "Rob",
+                roster_id: 2,
+                fpts: null,
+                fpts_against: null,
+                image: rob,
+              },
+              {
+                name: "Chilos",
+                roster_id: 3,
+                fpts: null,
+                fpts_against: null,
+                image: chilos,
+              },
+              {
+                name: "Bones",
+                roster_id: 4,
+                fpts: null,
+                fpts_against: null,
+                image: bones,
+              },
+              {
+                name: "Greg",
+                roster_id: 5,
+                fpts: null,
+                fpts_against: null,
+                image: greg,
+              },
+              {
+                name: "Marcus",
+                roster_id: 6,
+                fpts: null,
+                fpts_against: null,
+                image: marcus,
+              },
+              {
+                name: "Gav",
+                roster_id: 7,
+                fpts: null,
+                fpts_against: null,
+                image: gav,
+              },
+              {
+                name: "Banks",
+                roster_id: 8,
+                fpts: null,
+                fpts_against: null,
+                image: banks,
+              },
+              {
+                name: "Drape",
+                roster_id: 9,
+                fpts: null,
+                fpts_against: null,
+                image: drape,
+              },
+              {
+                name: "Chandler",
+                roster_id: 10,
+                fpts: null,
+                fpts_against: null,
+                image: chandler,
+              },
+            ];
+
+            const merged_player_data = player_data.reduce((acc, u) => {
+              const player = players.find((a) => a.roster_id === u.roster_id);
+
+              if (player) {
+                acc.push({
+                  data_points: {
+                    x: u.settings.fpts,
+                    y: u.settings.fpts_against,
+                  },
+                  label: player.name,
+                  image: player.image,
+                });
+              }
+
+              return acc;
+            }, []);
+            console.log(merged_player_data);
+
+            let datasets2 = merged_player_data.map((player, index) => ({
+              label: player.label,
+              //   backgroundColor: "#007bff",
+              data: [
+                {
+                  x: player.data_points.x,
+                  y: player.data_points.y,
+                },
+              ],
+              //   pointBackgroundColor: "#aa0d0d",
+              pointRadius: 20,
+              pointStyle: [player.image],
+            }));
+
+            console.log(datasets2);
+
+            const data = {
+              datasets: datasets2,
+            };
+
+            const config = {
+              type: "scatter",
+              data: data,
+              options: {
+                plugins: {
+                  title: {
+                    display: true,
+                    // text: "Settlers of Cantan Week One",
+                  },
+                  legend: {
+                    display: false,
+                  },
+                },
+
+                scales: {
+                  x: {
+                    type: "linear",
+                    position: "bottom",
+                  },
+                  
+                },
+              },
+            };
+            var myChart = new Chart(document.getElementById("myChart"), config);
+          });
+      });
+    </script>
+  </body>
+</html>
+
+<!-- id = "700552960417038336" -->
+<!-- league id = "700483664684875776" -->
+
+<!-- Roster Id's -->
+<!-- Swiki - 1
+Rob - 2
+Chilos - 3
+Bones - 4
+Greg - 5
+Marcus - 6
+Gav - 7
+Banks - 8
+Drape - 9
+Chandler - 10 -->
